@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Project do
 
   before(:each) do
-    @project = Factory :project, :status => 'ok'
+    @project = Factory :project, :status => 'ok', :name => 'lasers'
   end
 
   describe "updating from shell" do
@@ -46,6 +46,11 @@ describe Project do
       lambda {
         @project.update_attributes_from_shell 'status:ok',"author:'Failbot <fail@example.com'"
       }.should_not change(@project, :updates_count)
+    end
+
+    it 'cannot change name' do
+      @project.update_attributes_from_shell 'status:failed', 'name:bombs'
+      @project.name.should == 'lasers'
     end
     
   end

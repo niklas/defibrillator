@@ -15,6 +15,9 @@ class Project < ActiveRecord::Base
       end
       hash
     end
+
+    # cannot change name
+    new_attr.delete('name')
     update_attributes new_attr
   end
 
