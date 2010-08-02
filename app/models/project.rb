@@ -33,14 +33,15 @@ class Project < ActiveRecord::Base
       upd[change.first] = change.last.last
       upd
     end
-    unless @updated_attributes.empty?
-      @updated_attributes['author'] = @author
-    end
   end
 
   def persist_stored_changes
-    logger.debug { "updating: #{@updated_attributes.inspect}" }
-    updates.create! @updated_attributes
+    unless @updated_attributes.empty?
+      @updated_attributes['author'] = @author
+      logger.debug { "updating: #{@updated_attributes.inspect}" }
+      updates.create! @updated_attributes
+    end
+    true
   end
 
 end

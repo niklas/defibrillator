@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Project do
 
   before(:each) do
-    @project = Factory :project
+    @project = Factory :project, :status => 'ok'
   end
 
   describe "updating from shell" do
@@ -40,6 +40,12 @@ describe Project do
       @update = @project.updates.last
       @update.status.should == 'failed'
       @update.author.should == 'Failbot <fail@example.com'
+    end
+
+    it 'should create no update if status did not change' do
+      lambda {
+        @project.update_attributes_from_shell 'status:ok',"author:'Failbot <fail@example.com'"
+      }.should_not change(@project, :updates_count)
     end
     
   end
