@@ -1,0 +1,13 @@
+#!env ruby
+
+
+APP_PATH = File.expand_path('../../config/application',  __FILE__)
+
+klass_name = ARGV.shift
+raise ArgumentError, "only projects allowed to update (for now)" unless klass_name === 'Project'
+klass = Project
+
+project_name = ARGV.shift
+project = klass.find_by_name! project_name
+
+project.update_attributes_from_shell(ARGV)

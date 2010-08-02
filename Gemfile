@@ -44,14 +44,5 @@ group :test do
 
   gem 'redgreen'
 
-  gem 'capybara'
-  gem 'database_cleaner'
-  gem 'cucumber-rails'
-  gem 'cucumber', '0.8.0'
-  gem 'spork'
-  gem 'launchy'
-
   gem 'factory_girl', :git => 'git://github.com/thoughtbot/factory_girl.git'
-
-  gem 'pickle', :git => 'git://github.com/codegram/pickle.git'
 end
