@@ -9,9 +9,9 @@ Feature: Project Overview
 
   Scenario: Some Projects
     Given the following projects exist:
-      | name | status|
-      | lasers| ok|
-      | bombs | fail|
+      | name   | status  |
+      | lasers | ok      |
+      | bombs  | failed  |
 
     When I go to the home page
     Then I should see "Projects"

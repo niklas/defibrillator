@@ -5,6 +5,10 @@ class Project < ActiveRecord::Base
 
   validates_format_of :name,:with => /\A[_\w_]+\z/
 
+  Stati = %w(new ok failed building).freeze
+
+  validates_inclusion_of :status, :in => Stati
+
   include Cli::UpdatesFromShell
 
   # may not change name
@@ -20,10 +24,10 @@ class Project < ActiveRecord::Base
 
   attr_writer :author
 
-  before_update :store_changes
-  after_update :persist_stored_changes
 
   private
+  before_update :store_changes
+  after_update :persist_stored_changes
   def store_changes
     @updated_attributes = changes.inject({}) do |upd,change|
       upd[change.first] = change.last.last
@@ -38,6 +42,11 @@ class Project < ActiveRecord::Base
       updates.create! @updated_attributes
     end
     true
+  end
+
+  before_validation :set_default_status, :on => :create
+  def set_default_status
+    self.status ||= Stati.first
   end
 
 end

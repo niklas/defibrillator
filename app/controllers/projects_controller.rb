@@ -4,4 +4,10 @@ class ProjectsController < ApplicationController
     @projects = Project.all
   end
 
+  def updates
+    @updates = ProjectUpdate.after(params[:after])
+
+    render :json => @updates
+  end
+
 end

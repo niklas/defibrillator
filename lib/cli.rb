@@ -2,7 +2,7 @@ class Cli
 
   def self.update(*argv)
     klass_name = argv.shift
-    raise ArgumentError, "only projects allowed to update (for now)" unless klass_name === 'Project'
+    raise ArgumentError, "only Project allowed to update (for now,you gave#{klass_name})" unless klass_name === 'Project'
     klass = klass_name.classify.constantize
 
     name = argv.shift
