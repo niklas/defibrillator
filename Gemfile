@@ -45,4 +45,8 @@ group :test do
   gem 'redgreen'
 
   gem 'factory_girl', :git => 'git://github.com/thoughtbot/factory_girl.git'
+
+  gem 'cucumber-rails'
+  gem 'capybara'
+  gem 'pickle'
 end

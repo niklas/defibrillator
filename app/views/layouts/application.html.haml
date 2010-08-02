@@ -1,0 +1,13 @@
+!!!5
+%html
+  %head
+    %title= @title || self.application.name
+    = csrf_meta_tag
+    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
+    %script{:src => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'}
+    %script{:src => 'updater.js'}
+
+  %body
+    #content
+      = yield
+
