@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export RAILS_ENV=production
+
 FULLPATH=`cd $(dirname $0); pwd`
 #echo $FULLPATH >&2
 PROJECT=`echo $FULLPATH | awk -F/ '{print $(NF-3)}'`
