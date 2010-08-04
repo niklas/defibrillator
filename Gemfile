@@ -50,3 +50,7 @@ group :test do
   gem 'capybara'
   gem 'pickle'
 end
+
+group :production do
+  gem 'mysql', '2.8.1'
+end
