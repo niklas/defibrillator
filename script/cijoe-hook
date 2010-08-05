@@ -1,11 +1,16 @@
 #!/bin/bash
 
+# symlink here the following cijeo-hooks (in .git/hooks/)
+# * after-reset  => building
+# * build-worked => ok
+# * build-failed => failed
+
 export RAILS_ENV=production
 
 FULLPATH=`cd $(dirname $0); pwd`
 #echo $FULLPATH >&2
 PROJECT=`echo $FULLPATH | awk -F/ '{print $(NF-3)}'`
-STATUS=`echo $0 | awk -F- '{print $NF == "worked" ? "pass" : ($NF == "reset" ? "building" : "fail")}'`
+STATUS=`echo $0 | awk -F- '{print $NF == "worked" ? "ok" : ($NF == "reset" ? "building" : "failed")}'`
 
 SCRIPTS_PATH="$(dirname "$(readlink -f "$0")")"
 ruby $SCRIPTS_PATH/update Project $PROJECT author:$AUTHOR status:$STATUS
