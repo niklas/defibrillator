@@ -1,5 +1,5 @@
 Defibrillator::Application.routes.draw do
-  match 'updates.js', :to => 'projects#updates'
+  match 'updates.js', :to => 'projects#updates', :as => 'updates'
   root :to => "projects#index"
 
   # The priority is based upon order of creation:
