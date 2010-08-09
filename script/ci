@@ -20,4 +20,4 @@ mkdir log
 echo "Installing Gems with bundler (see log/bundler.log)"
 bundle install > log/bundler.log
 
-rake db:schema:load && vrspec spec/ && rake cucumber:ok
+rake db:schema:load && rspec spec/ && rake cucumber:ok
