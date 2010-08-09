@@ -15,6 +15,8 @@ rvm use $RUBY_VERSION || ( rvm install $RUBY_VERSION && rvm use $RUBY_VERSION) |
 gem install bundler -v 1.0.0.rc.2
 gem install rake -v 0.8.7
 
+mkdir log
+
 echo "Installing Gems with bundler (see log/bundler.log)"
 bundle install > log/bundler.log
 
