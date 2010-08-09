@@ -1,0 +1,21 @@
+#!/bin/bash
+
+RUBY_VERSION='1.8.7-p299'
+
+# Install RVM
+test -f "$HOME/.rvm/scripts/rvm" || ( bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head ) )
+
+# Install some rubies
+source "$HOME/.rvm/scripts/rvm"
+
+export RAILS_ENV=test
+
+rvm use $RUBY_VERSION || ( rvm install $RUBY_VERSION && rvm use $RUBY_VERSION) || exit 23
+
+gem install bundler -v 1.0.0.rc.2
+gem install rake -v 0.8.7
+
+echo "Installing Gems with bundler (see log/bundler.log)"
+bundle install > log/bundler.log
+
+rake db:schema:load && vrspec spec/ && rake cucumber:ok
