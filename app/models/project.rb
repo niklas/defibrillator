@@ -22,6 +22,10 @@ class Project < ActiveRecord::Base
     updates.count
   end
 
+  def human_name
+    name.humanize.downcase
+  end
+
   attr_writer :author
 
 

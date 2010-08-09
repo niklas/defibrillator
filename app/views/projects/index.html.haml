@@ -4,7 +4,7 @@
   %ul#projects.projects{:href => updates_path}
     - @projects.each do |project|
       %li.project{:id => dom_id(project), :name => project.name, :class => project.status}
-        %h2.name= link_to project.name, cijoe_path(project)
+        %h2.name= link_to project.human_name, cijoe_path(project)
         %p.status= project.status
 
 
