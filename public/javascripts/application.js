@@ -34,5 +34,5 @@ $(document).ready(function() {
     setInterval( updateProjects, 5000);
 
     // reload whole page every hour
-    setTimeout( function() { location.reload(); }, 1000 * 60 * 60);
+    setTimeout( function() { location.reload(); }, 1000 * 60 * 5);
 });
