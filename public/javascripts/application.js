@@ -12,8 +12,12 @@ $(document).ready(function() {
             if (this.project_update) {
               var update = this.project_update;
 
+              var $elem = $('#project_' + update.project_id);
+
               if (update.status) {
-                $('#project_' + update.project_id).find('.status').text(update.status);
+                $elem.removeClass('new ok failed building').addClass(update.status)
+                  .find('.status')
+                    .text(update.status);
               }
 
               if (updatedAt < update.updated_at) {
