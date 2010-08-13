@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
   validates_presence_of :name
 
   validates_format_of :name,:with => /\A[_\w_]+\z/
+  validates_format_of :revision,:with => /\A[_\w_]+\z/
 
   Stati = %w(new ok failed building).freeze
 
@@ -15,6 +16,7 @@ class Project < ActiveRecord::Base
   def parse_attributes_from_shell(*)
     new_attr = super
     new_attr.delete('name')
+    new_attr.delete('revision')
     new_attr
   end
 
@@ -24,6 +26,15 @@ class Project < ActiveRecord::Base
 
   def human_name
     name.humanize.downcase
+  end
+
+  def name_with_revision
+    [name,revision].join('=')
+  end
+
+  def self.find_or_create_by_name_with_revision(name_with_revision)
+    name, revision = name_with_revision.split('=')
+    find_or_create_by_name_and_revision name, revision
   end
 
   attr_writer :author
@@ -51,6 +62,11 @@ class Project < ActiveRecord::Base
   before_validation :set_default_status, :on => :create
   def set_default_status
     self.status ||= Stati.first
+  end
+
+  before_validation :set_default_revision, :on => :create
+  def set_default_revision
+    self.revision ||= 'master'
   end
 
 end

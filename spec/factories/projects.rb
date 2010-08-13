@@ -2,5 +2,6 @@
 
 Factory.define :project do |f|
   f.sequence(:name) {|i| "Project_#{i}"}
-  f.status "ok"
+  f.revision 'master'
+  f.status "new"
 end

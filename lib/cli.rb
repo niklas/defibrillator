@@ -5,8 +5,8 @@ class Cli
     raise ArgumentError, "only Project allowed to update (for now,you gave#{klass_name})" unless klass_name === 'Project'
     klass = klass_name.classify.constantize
 
-    name = argv.shift
-    object = klass.find_or_create_by_name name
+    name_with_revision = argv.shift
+    object = klass.find_or_create_by_name_with_revision name_with_revision
 
     object.update_attributes_from_shell(*argv)
   end
