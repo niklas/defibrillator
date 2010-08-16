@@ -2,9 +2,12 @@ class Project < ActiveRecord::Base
 
   has_many :updates, :class_name => 'ProjectUpdate'
   validates_presence_of :name
+  validates_presence_of :revision
 
   validates_format_of :name,:with => /\A[_\w_]+\z/
   validates_format_of :revision,:with => /\A[_\w_]+\z/
+
+  validates_uniqueness_of :revision, :scope => [:name]
 
   Stati = %w(new ok failed building).freeze
 
