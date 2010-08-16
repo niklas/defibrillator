@@ -28,7 +28,7 @@ class Project < ActiveRecord::Base
   end
 
   def human_name
-    name.humanize.downcase
+    %Q[#{name.humanize.downcase} (#{revision})]
   end
 
   def name_with_revision
