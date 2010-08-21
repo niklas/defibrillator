@@ -1,12 +1,9 @@
 - if @projects.empty?
   %p None :(
 - else
-  %ul#projects.projects{:href => updates_path}
+  %ul#projects.projects{:href => updates_path, :updatedAt => Time.now.as_json}
     - @projects.each do |project|
       %li.project{:id => dom_id(project), :name => project.name, :class => project.status}
         %h2.name= link_to project.human_name, cijoe_path(project)
         %p.status= project.status
 
-
-#metadata{:style => 'display:none'}
-  %span.updated_at= Time.now.as_json

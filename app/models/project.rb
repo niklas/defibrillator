@@ -67,7 +67,7 @@ class Project < ActiveRecord::Base
     self.status ||= Stati.first
   end
 
-  before_validation :set_default_revision, :on => :create
+  before_validation :set_default_revision, :on => :update
   def set_default_revision
     self.revision ||= 'master'
   end

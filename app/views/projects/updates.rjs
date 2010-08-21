@@ -1,0 +1,27 @@
+@updates.each do |update|
+  
+  project = page["#project_#{update.project_id}"]
+  if update.status
+    project.
+      removeClass('new ok failed building').addClass(update.status).
+      find('.status').
+        text(update.status).
+      end
+
+    case update.status
+    when 'ok'
+      project.fadeTo('slow', 0.8)
+    when 'failed'
+      project.fadeTo("slow", 1.0)
+    when 'building'
+      project.fadeTo("slow", 0.5)
+    end
+
+  end
+
+end
+
+unless @updates.empty?
+  page['#projects'].data 'updatedAt', @updates.map(&:updated_at).max.as_json
+end
+
