@@ -12,6 +12,15 @@ $border_radius = 5px
   -webkit-border-radius: $radius
 
 
+@mixin colored-status
+  &.new
+    background-color: #777
+  &.ok
+    background-color: #247A24
+  &.failed
+    background-color: #6E1C1C
+  &.building
+    background-color: #9F9956
 
 body
   background-color: #aaa
@@ -29,8 +38,10 @@ body
       .project
         background-color: #555
         @include rounded-border(15px)
-        margin: 1em
+        @include colored-status
+        margin: 1em 1em 1.5em 1em
         padding: 0.7em
+        position: relative
 
         h2.name
           font-size: 30px
@@ -47,12 +58,21 @@ body
           content: ' '
           display: block
           clear: both
-        &.new
-          background-color: #777
-        &.ok
-          background-color: #247A24
-        &.failed
-          background-color: #6E1C1C
-        &.building
-          background-color: #9F9956
+
+        ul.updates
+          list-style: none
+          position: absolute
+          bottom: -12px
+          left: -24px
+          li
+            @include rounded-border(0 5px 0 10px)
+            @include colored-status
+            width: 10px
+            height: 10px
+            float: left
+            margin: 0 2px
+            p.status
+              text-indent: -5000px
+              position: absolute
+            
 

@@ -10,11 +10,11 @@
 
     case update.status
     when 'ok'
-      project.fadeTo('slow', 0.8)
+      project.find('ul.updates').append render(update)
     when 'failed'
-      project.fadeTo("slow", 1.0)
+      project.find('ul.updates').append render(update)
     when 'building'
-      project.fadeTo("slow", 0.5)
+      # wirblewirble
     end
 
   end
