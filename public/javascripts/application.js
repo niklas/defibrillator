@@ -9,7 +9,7 @@ $(document).ready(function() {
         var $project = $(this);
         var $updates = $project.find('.updates .update');
         $updates.each(function(i) {
-          $(this).fadeTo(100, 1 - (i / $updates.length  ) );
+          $(this).fadeTo(100, 1.2 - (i / $updates.length  ) );
         });
       });
     };
