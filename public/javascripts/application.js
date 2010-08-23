@@ -31,6 +31,25 @@ $(document).ready(function() {
 
     applyBehaviours();
 
-    // reload whole page every hour
-    setTimeout( function() { location.reload(); }, 1000 * 60 * 5);
+    var serverResponsive = false;
+    $('body')
+      .bind('ajaxSend',  function() {  console.debug('beforeSend'); serverResponsive = false; })
+      .bind('ajaxSuccess', function(data, xhr) {  
+        if (xhr.status==200) { // success is called even if url not available (DOH), see ~ http://dev.jquery.it/ticket/6060
+          console.debug('Success'); 
+          serverResponsive = true; 
+        }
+      });
+
+    // reload whole page every hour, but only if the recent ajax callbacks have
+    // verified that the server is responsive (we have bad internet at the
+    // office)
+    var reloadPage = function() {
+      if (serverResponsive) {
+        location.reload();
+      } else {
+        setTimeout( reloadPage, 1000 * 1);
+      }
+    };
+    setTimeout( reloadPage, 1000 * 60 * 15);
 });
