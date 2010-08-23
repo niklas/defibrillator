@@ -10,9 +10,9 @@
 
     case update.status
     when 'ok'
-      project.find('ul.updates').append render(update)
+      project.find('ul.updates').prepend render(update)
     when 'failed'
-      project.find('ul.updates').append render(update)
+      project.find('ul.updates').prepend render(update)
     when 'building'
       # wirblewirble
     end

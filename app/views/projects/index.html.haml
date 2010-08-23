@@ -7,5 +7,5 @@
         %h2.name= link_to project.human_name, cijoe_path(project)
         %p.status= project.status
         %ul.updates
-          = render project.updates.recent.results.reverse
+          = render project.updates.recent.results
 
