@@ -4,8 +4,8 @@ class Project < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :revision
 
-  validates_format_of :name,:with => /\A[_\w_]+\z/
-  validates_format_of :revision,:with => /\A[_\w_]+\z/
+  validates_format_of :name,:with => /\A[\w_]+\z/
+  validates_format_of :revision,:with => /\A[\w_]+\z/
 
   validates_uniqueness_of :revision, :scope => [:name]
 

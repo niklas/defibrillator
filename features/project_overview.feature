@@ -15,7 +15,7 @@ Feature: Project Overview
 
     When I go to the home page
     Then I should see "Projects"
-     And I should see "lasers"
-     And I should see "bombs"
+     And I should see "lasers (master)"
+     And I should see "bombs (master)"
 
 
