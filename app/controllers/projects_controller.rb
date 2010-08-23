@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   def index
-    @title = "Projects"
+    @title = "Projects - Defibrillator"
     @projects = Project.all
   end
 
