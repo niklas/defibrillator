@@ -1,0 +1,12 @@
+- update ||= project.updates.last
+- case update.andand.status || project.status
+- when 'ok', 'failed'
+  - if update.andand.has_author?
+    = gravatar_tag update.author_person
+  - else
+    = anonymous_tag
+- when 'building'
+  = spinner_tag
+- else
+  = unknown_tag
+

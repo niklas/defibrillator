@@ -1,0 +1,6 @@
+%li.project{:id => dom_id(project), :name => project.name, :class => project.status}
+  %h2.name= link_to project.human_name, cijoe_path(project)
+  %p.status= render 'projects/status', :project => project
+  %ul.updates
+    = render project.updates.recent.results
+

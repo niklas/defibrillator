@@ -50,9 +50,16 @@ body
           a
             text-decoration: none
         p.status
-          font-size: 20px
-          margin: 10px
+          margin: 0 0 -5px
           float: right
+          img
+            width: 48px
+            height: 48px
+            &.gravatar
+              @include rounded-border(10px)
+              border-color: transparent
+            &.spinner
+              background: white
 
         &:after
           content: ' '

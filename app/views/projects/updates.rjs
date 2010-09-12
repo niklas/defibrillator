@@ -5,7 +5,7 @@
     project.
       removeClass('new ok failed building').addClass(update.status).
       find('.status').
-        text(update.status).
+        html( render('projects/status', :project => update.project) ).
       end
 
     case update.status
