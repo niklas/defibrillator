@@ -24,8 +24,15 @@ class Author < Struct.new(:line)
   end
 
   def gravatar_url
-    "http://www.gravatar.com/avatar/#{gravarar_hash}.png"
+    "http://www.gravatar.com/avatar/#{gravarar_hash}.png?r=#{gravatar_rating}"
   end
+
+  def rating
+    self.class.gravatar_rating
+  end
+
+  cattr_accessor :gravatar_rating
+  self.gravatar_rating = 'x'
 
   protected
   def gravarar_hash
