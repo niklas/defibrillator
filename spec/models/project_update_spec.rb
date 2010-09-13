@@ -9,7 +9,7 @@ describe ProjectUpdate do
 
     it do
       @update.should have_author
-      @update.author.should be_a(Author)
+      @update.author_person.should be_a(Author)
     end
 
 
