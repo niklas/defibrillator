@@ -1,6 +1,5 @@
 
 $(document).ready(function() {
-    var updatedAt = $('#metadata .updated_at').text();
 
     $('#projects').data('updatedAt', $('#projects').attr('updatedAt'));
 
@@ -82,8 +81,6 @@ $(document).ready(function() {
     };
     setInterval( updateProjects, 1000 * $('html').attr('data-refresh-interval'));
 
-    applyBehaviours();
-
     var serverResponsive = false;
     $('body')
       .bind('ajaxSend',  function() {  console.debug('beforeSend'); serverResponsive = false; })
@@ -105,4 +102,63 @@ $(document).ready(function() {
       }
     };
     setTimeout( reloadPage, 1000 * $('html').attr('data-reload-interval'));
+
+    $.fn.getState = function() {
+      return $(this).data('state') || 'normal';
+    };
+
+    $.expr[':'].state = function(node, i, prop, stack) {
+      return $node.getState() == state;
+    };
+
+    $('#projects .project h2.name').live('click', function(evt) {
+
+      evt.stopPropagation();
+
+      var $project = $(this).closest('.project'),
+          currentState = $project.getState(),
+          $statusEl = $project.children('div.status:first'),
+          $all = $('#projects .project'),
+          $others = $all.not($project);
+
+      var byState = function(state) {
+        return $all.filter(':state(' + state + ')');
+      };
+
+
+      switch(currentState) {
+        case 'normal':
+
+          // minimize others
+          $others.children(':not(h2.name)').hide();
+          // TODO save state
+
+          $('<div>Iframe</div>')
+            .addClass('iframe')
+            .appendTo($project);
+
+          // TODO remove iframe later?
+
+          newState = 'maximized';
+          // code
+          break;
+
+        case 'maximized':
+          $others.children(':not(h2.name)').show();
+
+          $project.children('div.iframe').remove();
+          newState = 'normal';
+          break;
+          
+        
+        default:
+          // code
+      }
+      
+      $project.data('state', newState);
+      return false;
+    });
+
+    applyBehaviours();
+
 });
