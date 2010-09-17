@@ -41,7 +41,7 @@ $(document).ready(function() {
         });
       }
     };
-    setInterval( updateProjects, 5000);
+    setInterval( updateProjects, 1000 * $('html').attr('data-refresh-interval'));
 
     applyBehaviours();
 
@@ -62,8 +62,8 @@ $(document).ready(function() {
       if (serverResponsive) {
         location.reload();
       } else {
-        setTimeout( reloadPage, 1000 * 1);
+        setTimeout( reloadPage, 1000);
       }
     };
-    setTimeout( reloadPage, 1000 * 60 * 15);
+    setTimeout( reloadPage, 1000 * $('html').attr('data-reload-interval'));
 });

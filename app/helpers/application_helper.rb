@@ -21,4 +21,19 @@ module ApplicationHelper
   def unknown_tag(opts={})
     image_tag 'new.png', :class => 'new'
   end
+
+
+  # in seconds
+  def refresh_interval
+    if Rails.env.production?
+      5.seconds
+    else
+      5.minutes
+    end
+  end
+
+  # in seconds
+  def reload_interval
+    1.hour
+  end
 end

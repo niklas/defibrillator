@@ -1,5 +1,5 @@
 !!!5
-%html
+%html{'data-refresh-interval' => refresh_interval, 'data-reload-interval' => reload_interval}
   %head
     %title= @title || self.application.name
     = csrf_meta_tag
