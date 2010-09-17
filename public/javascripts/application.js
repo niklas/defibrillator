@@ -12,6 +12,15 @@ $(document).ready(function() {
           $(this).fadeTo(100, 1.2 - (i / $updates.length  ) );
         });
       });
+
+      $('.progress').each(function() {
+        var $elem = $(this);
+        $elem.countdown({
+          until: $elem.attr('data-seconds-left'),
+          compact: true,
+          desription: ''
+        });
+      });
     };
 
 
