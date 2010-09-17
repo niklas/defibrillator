@@ -111,7 +111,9 @@ $(document).ready(function() {
       return $node.getState() == state;
     };
 
-    $('#projects .project h2.name').live('click', function(evt) {
+    var toHideOnMinimize = ':not(h2.name)';
+
+    $('#projects .project').live('click', function(evt) {
 
       evt.stopPropagation();
 
@@ -125,28 +127,36 @@ $(document).ready(function() {
         return $all.filter(':state(' + state + ')');
       };
 
+      var transitions = {
+        'from:maximized': function($elements) {
+          $elements.removeClass('maximized', 'slow').children('div.iframe').remove();
+        },
+        'to:maximized': function($elements) {
+          $elements.addClass('maximized', 'slow');
+          $('<div>Iframe</div>')
+            .addClass('iframe')
+            .appendTo($elements);
+        },
+        'to:minimized': function($elements) {
+          $elements.addClass('minimized', 'slow').children(toHideOnMinimize).hide('slow');
+        },
+        'from:minimized': function($elements) {
+          $elements.removeClass('minimized', 'fast').children(toHideOnMinimize).show('fast');
+        }
+      };
 
       switch(currentState) {
         case 'normal':
-
-          // minimize others
-          $others.children(':not(h2.name)').hide();
+          transitions['to:minimized']($others);
+          transitions['to:maximized']($project);
           // TODO save state
-
-          $('<div>Iframe</div>')
-            .addClass('iframe')
-            .appendTo($project);
-
-          // TODO remove iframe later?
-
           newState = 'maximized';
           // code
           break;
 
         case 'maximized':
-          $others.children(':not(h2.name)').show();
-
-          $project.children('div.iframe').remove();
+          transitions['from:minimized']($others);
+          transitions['from:maximized']($project);
           newState = 'normal';
           break;
           
@@ -157,7 +167,24 @@ $(document).ready(function() {
       
       $project.data('state', newState);
       return false;
-    });
+    })
+    .live('hover',
+        function() {
+          var $project = $(this);
+          if (!$project.hasClass('minimized')) {
+            return;
+          }
+          var hovered = !$project.hasClass('hovered');
+
+          if (hovered) {
+            $project.addClass('hovered', 'fast');
+            //$project.children(toHideOnMinimize).stop().show('fast');
+          } else {
+            //$project.children(toHideOnMinimize).stop().hide('slow');
+            $project.removeClass('hovered', 'fast');
+          }
+        }
+    );
 
     applyBehaviours();
 
