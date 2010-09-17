@@ -49,7 +49,7 @@ body
           margin: 5px
           a
             text-decoration: none
-        p.status
+        div.status
           margin: 0 0 -5px
           float: right
           img
@@ -60,6 +60,20 @@ body
               border-color: transparent
             &.spinner
               background: white
+          div.progress
+            position: relative
+            div.progress-graph
+              position: absolute
+              width: 83px
+              height: 83px
+              z-index: 1
+            img.spinner
+              position: absolute
+              top: 0
+              right: 0
+              z-index: 2
+            div.countdown
+              margin-right: 70px
 
         &:after
           content: ' '

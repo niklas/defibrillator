@@ -13,13 +13,51 @@ $(document).ready(function() {
         });
       });
 
+      var drawArc = function(svg, width, thickness, fraction) {
+        var radius = width / 2;
+        var deg = Math.PI * 2 * fraction;
+        var tx = Math.sin(deg) * (radius - thickness) + radius;
+        var ty = Math.cos(deg) * (radius - thickness) + radius;
+        var path = svg.createPath();
+        svg.path( 
+          path
+            .move(radius, thickness)
+            .arc(radius - thickness, radius - thickness, 0, true, true, tx, ty)
+            ,
+          {stroke: "#ddd", strokeWidth: thickness, fill: "none"}
+        );
+      };
+
       $('.progress').each(function() {
         var $elem = $(this);
         var left = $elem.attr('data-progress-left');
         var total = $elem.attr('data-progress-total');
+        var $spinner = $elem.find('img.spinner')
+          .fadeTo(6000, 0.42);
 
-        $('<span />')
-          .appendTo($elem)
+        var $graphElem = $('<div> </div>')
+          .addClass('progress-graph')
+          .prependTo($elem);
+
+        var width = $graphElem.width();
+        var thickness = 5;
+
+        var $graph = $graphElem.svg({ onLoad: function(svg) {
+              drawArc(svg, width, thickness, left/total);
+            }
+          }).svg('get');
+
+        $graphElem
+          .fadeTo(0, 0.001)
+          .css({
+            'top': -( width - $spinner.height() ) / 2,
+            'right': -( width - $spinner.width() ) / 2
+          })
+          .fadeTo(9000, 0.66);
+
+        $('<div> </div>')
+          .addClass('countdown')
+          .prependTo($elem)
           .countdown({
             until: left,
             compact: true,
@@ -37,6 +75,7 @@ $(document).ready(function() {
           url: update_path + "?after=" + $('#projects').data('updatedAt'),
           dataType: "script",
           complete: function(req, stat) {
+            applyBehaviours();
           }
         });
       }
