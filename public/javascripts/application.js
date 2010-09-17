@@ -15,11 +15,16 @@ $(document).ready(function() {
 
       $('.progress').each(function() {
         var $elem = $(this);
-        $elem.countdown({
-          until: $elem.attr('data-seconds-left'),
-          compact: true,
-          desription: ''
-        });
+        var left = $elem.attr('data-progress-left');
+        var total = $elem.attr('data-progress-total');
+
+        $('<span />')
+          .appendTo($elem)
+          .countdown({
+            until: left,
+            compact: true,
+            desription: ''
+          });
       });
     };
 

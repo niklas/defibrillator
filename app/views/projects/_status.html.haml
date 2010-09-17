@@ -6,7 +6,7 @@
   - else
     = anonymous_tag
 - when 'building'
-  .progress{'data-seconds-left' => 42}
+  .progress{'data-progress-left' => 42, 'data-progress-total' => 60}
     = spinner_tag
 - else
   = unknown_tag
