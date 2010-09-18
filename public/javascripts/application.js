@@ -103,7 +103,7 @@ $(document).ready(function() {
     };
     setTimeout( reloadPage, 1000 * $('html').attr('data-reload-interval'));
 
-    var speed = 300;
+    var speed = 800;
 
     $.fn.getState = function() {
       return $(this).data('state') || 'normal';
@@ -122,7 +122,8 @@ $(document).ready(function() {
       var $project = $(this).closest('.project'),
           currentState = $project.getState(),
           $statusEl = $project.children('div.status:first'),
-          indent = $statusEl.width(),
+          margin = parseInt($project.css('marginTop'), 10),
+          indent = $statusEl.width() + 3 * margin,
           $all = $('#projects .project'),
           $others = $all.not($project);
 
@@ -136,49 +137,62 @@ $(document).ready(function() {
           $others
             .animate({left: '-100%', marginRight: '-=' + indent}, speed);
 
-          if ( !$project.children('div.iframe').length ) {
-            $('<div>Iframe</div>')
-              .hide()
-              .addClass('iframe')
-              .appendTo($project);
+          if ( !$project.children('iframe').length ) {
+            $('<iframe>You need iframe support</iframe>')
+              .attr('src', $project.find('h2.name a').attr('href'))
+              .appendTo($project.children('div.iframe:first'));
           }
 
           $project
             .animate({marginLeft: '+=' + indent}, speed, function() {
               var p = $project.position();
-              $project.data('old-position', p);
-              $project.css({
-                position: 'absolute',
-                top: p.top,
-                left: p.left,
-                width: $project.width(),
-              })
-              .animate({
-                top: indent
-              }, speed);
+              $project
+                .data('old-position', p)
+                .data('old-height', $project.height())
+                .data('old-width', $project.width())
+                .css({
+                  position: 'absolute',
+                  top: p.top,
+                  left: p.left,
+                  width: $project.width()
+                })
+                .animate({
+                  top: 0,
+                  bottom: margin + parseInt($project.css('marginBottom'),10),
+                  right: margin
+                }, speed, function() {
+                  $project.css({
+                    width: 'auto'
+                  })
+                  .children('div.iframe')
+                    .show('fade', speed)
+                  .end()
+                });
 
-            })
-            .children('div.iframe')
-              .delay(speed)
-              .show('blind', speed);
+            });
 
           newState = 'maximized';
           // code
           break;
 
         case 'maximized':
-          var p = $project.data('old-position');
+          var p = $project.data('old-position'),
+              oldHeight = $project.data('old-height'),
+              oldWidth = $project.data('old-width');
 
           $project
             .children('div.iframe')
-              .hide('blind', speed)
+              .hide('fade', speed)
             .end()
-            .animate({top: p.top, left: p.left}, speed, function() {
+            .animate({top: p.top, left: p.left, height: oldHeight, width: oldWidth}, speed, function() {
                 $project.css({
                   position: 'relative',
                   top: 0,
                   left: 0,
-                  width: 'auto'
+                  width: 'auto',
+                  bottom: 'auto',
+                  right: 'auto',
+                  height: 'auto'
                 })
                 .animate({marginLeft: '-=' + indent}, speed)
             })
