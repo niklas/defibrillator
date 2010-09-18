@@ -103,6 +103,8 @@ $(document).ready(function() {
     };
     setTimeout( reloadPage, 1000 * $('html').attr('data-reload-interval'));
 
+    var speed = 300;
+
     $.fn.getState = function() {
       return $(this).data('state') || 'normal';
     };
@@ -120,6 +122,7 @@ $(document).ready(function() {
       var $project = $(this).closest('.project'),
           currentState = $project.getState(),
           $statusEl = $project.children('div.status:first'),
+          indent = $statusEl.width(),
           $all = $('#projects .project'),
           $others = $all.not($project);
 
@@ -127,36 +130,59 @@ $(document).ready(function() {
         return $all.filter(':state(' + state + ')');
       };
 
-      var transitions = {
-        'from:maximized': function($elements) {
-          $elements.removeClass('maximized', 'slow').children('div.iframe').remove();
-        },
-        'to:maximized': function($elements) {
-          $elements.addClass('maximized', 'slow');
-          $('<div>Iframe</div>')
-            .addClass('iframe')
-            .appendTo($elements);
-        },
-        'to:minimized': function($elements) {
-          $elements.addClass('minimized', 'slow').children(toHideOnMinimize).hide('slow');
-        },
-        'from:minimized': function($elements) {
-          $elements.removeClass('minimized', 'fast').children(toHideOnMinimize).show('fast');
-        }
-      };
-
       switch(currentState) {
         case 'normal':
-          transitions['to:minimized']($others);
-          transitions['to:maximized']($project);
           // TODO save state
+          $others
+            .animate({left: '-100%', marginRight: '-=' + indent}, speed);
+
+          if ( !$project.children('div.iframe').length ) {
+            $('<div>Iframe</div>')
+              .hide()
+              .addClass('iframe')
+              .appendTo($project);
+          }
+
+          $project
+            .animate({marginLeft: '+=' + indent}, speed, function() {
+              var p = $project.position();
+              $project.data('old-position', p);
+              $project.css({
+                position: 'absolute',
+                top: p.top,
+                left: p.left,
+                width: $project.width(),
+              })
+              .animate({
+                top: indent
+              }, speed);
+
+            })
+            .children('div.iframe')
+              .delay(speed)
+              .show('blind', speed);
+
           newState = 'maximized';
           // code
           break;
 
         case 'maximized':
-          transitions['from:minimized']($others);
-          transitions['from:maximized']($project);
+          var p = $project.data('old-position');
+
+          $project
+            .children('div.iframe')
+              .hide('blind', speed)
+            .end()
+            .animate({top: p.top, left: p.left}, speed, function() {
+                $project.css({
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: 'auto'
+                })
+                .animate({marginLeft: '-=' + indent}, speed)
+            })
+          $others.delay(speed).animate({left: 0, marginRight: '+=' + indent}, speed);
           newState = 'normal';
           break;
           
@@ -167,24 +193,7 @@ $(document).ready(function() {
       
       $project.data('state', newState);
       return false;
-    })
-    .live('hover',
-        function() {
-          var $project = $(this);
-          if (!$project.hasClass('minimized')) {
-            return;
-          }
-          var hovered = !$project.hasClass('hovered');
-
-          if (hovered) {
-            $project.addClass('hovered', 'fast');
-            //$project.children(toHideOnMinimize).stop().show('fast');
-          } else {
-            //$project.children(toHideOnMinimize).stop().hide('slow');
-            $project.removeClass('hovered', 'fast');
-          }
-        }
-    );
+    });
 
     applyBehaviours();
 

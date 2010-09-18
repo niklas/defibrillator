@@ -1,6 +1,7 @@
 $border_color = #333
 $border_radius = 5px
-
+$margin = 5px
+$icon_size = 48px
 
 @mixin rounded-border($radius: $border_radius)
   border:
@@ -29,7 +30,7 @@ body
     color: #eee
 
   #content
-    margin: 2em
+    margin: $margin
     ul#projects
       font-family: sans-serif
       list-style: none
@@ -39,22 +40,22 @@ body
         background-color: #555
         @include rounded-border(15px)
         @include colored-status
-        margin: 1em 1em 1.5em 1em
+        margin: 1em $margin 1.5em $margin
         padding: 0.7em
         position: relative
+        top: 0
+        left: 0
+        display: block
 
         &.minimized
-          float: left
-          clear: left
+          display: none
 
         &.maximized
-          position: absolute
-          top: 5px
-          left: 100px
-          right: 5px
+          h2
+            font-weight: bold
 
         &.hovered
-          float: none
+          left: auto
 
         h2.name
           font-size: 30px
@@ -65,9 +66,10 @@ body
         div.status
           margin: 0 0 -5px
           float: right
+          width: $icon_size
           img
-            width: 48px
-            height: 48px
+            width: $icon_size
+            height: $icon_size
             &.gravatar
               @include rounded-border(10px)
               border-color: transparent
