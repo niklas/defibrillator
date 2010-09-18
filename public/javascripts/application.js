@@ -196,7 +196,8 @@ $(document).ready(function() {
                 })
                 .animate({marginLeft: '-=' + indent}, speed)
             })
-          $others.delay(speed).animate({left: 0, marginRight: '+=' + indent}, speed);
+          // must give 0%, at 0 chrome shivers
+          $others.delay(speed).animate({left: '0%', marginRight: '+=' + indent}, speed);
           newState = 'normal';
           break;
           
