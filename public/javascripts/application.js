@@ -113,6 +113,19 @@ $(document).ready(function() {
       return $node.getState() == state;
     };
 
+    var $maximizedProject = null;
+    $.extend($.fn,{
+      activate: function() {
+        var $project = $(this).first();
+        if ($maximizedProject) {
+          $maximizedProject.normalizeFromMaximized();
+          $project.deminimize if maximizedProject != $project
+        }
+        maximizedProject = $project;
+        return $project;
+      }
+    });
+
     var toHideOnMinimize = ':not(h2.name)';
 
     $('#projects .project').live('click', function(evt) {
@@ -135,7 +148,7 @@ $(document).ready(function() {
         case 'normal':
           // TODO save state
           $others
-            .animate({left: '-100%', marginRight: '-=' + indent}, speed);
+            .animate({left: '-100%', marginRight: '-=' + indent, opacity: 0.7}, speed);
 
           if ( !$project.children('iframe').length ) {
             $('<iframe>You need iframe support</iframe>')
@@ -197,7 +210,7 @@ $(document).ready(function() {
                 .animate({marginLeft: '-=' + indent}, speed)
             })
           // must give 0%, at 0 chrome shivers
-          $others.delay(speed).animate({left: '0%', marginRight: '+=' + indent}, speed);
+          $others.delay(speed).animate({left: '0%', marginRight: '+=' + indent, opacity: 1.0}, speed);
           newState = 'normal';
           break;
           
