@@ -116,12 +116,14 @@ body
         div.iframe
           display: none
           position: absolute
-          top: $icon_size + 4 * $margin
-          bottom: 2 * $margin
+          top: $icon_size + 4 * $margin - 1
+          bottom: -300px
           left: 2 * $margin
           right: 2 * $margin
-          overflow: hidden
-          border: 0
+          background: inherit
+          @include rounded-border(0 0 5px 5px)
+          padding: 4 * $margin $margin $margin
+          border-top: 0
           iframe
             width: 100%
             height: 100%

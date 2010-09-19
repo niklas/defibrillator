@@ -9,15 +9,19 @@ Project = {
 
   _create: ->
     this.all.push this
+    @iframe = @element.find('div.iframe:first')
 
   _init: ->
     @options.margin or= parseInt @element.css('marginTop'), 10
     @options.indent or= @element.find('.status:first').width() + 3 + @options.margin
     @position = @_savePosition()
+
     @element.bind 'click', =>
-      console.debug('clicked', @element)
       @_switchToNextState()
       false
+
+    jQuery(window).bind 'resize', =>
+      @_updateIframeHeight()
 
   _switchToNextState: ->
     switch @getState()
@@ -51,24 +55,25 @@ Project = {
 
   maximize: ->
     @_addIframe()
-    p = @options.position
+
     if @is_normal()
       @element.animate {
         marginLeft: '+=' + @options.indent
-        top: -p.top
+        top: -@position.top
       }, @options.speed
     else if @is_minimized()
       @element.animate {
         left: 0
         marginLeft: '+=' + @options.indent
         marginRight: '+=' + @options.indent
-        top: -p.top
+        top: -@position.top
         opacity: 1.0
       }, @options.speed
-    @element.
-      children('div.iframe').
-        delay(@options.speed).
-        show('fade', @options.speed)
+
+    @iframe.
+      hide().
+      delay(@options.speed / 2).
+      show('fade', @options.speec / 2)
     @setState('maximized')
 
   minimize: ->
@@ -79,7 +84,6 @@ Project = {
         opacity: 0.7
       }, @options.speed
     else if @is_maximized()
-      console.debug("maximized -> minimized", @element)
       @element.animate {
         top: 0
         left: '-100%'
@@ -87,10 +91,11 @@ Project = {
         marginRight: '-=' + @options.indent
         opacity: 0.7
       }, @options.speed
+      @iframe.
+        hide('fade', @options.speed / 2)
     @setState('minimized')
 
   normalize: ->
-    p = @options.position
     if @is_minimized()
       @element.
         animate {
@@ -99,10 +104,9 @@ Project = {
           opacity: 1.0
         }, @options.speed
     else if @is_maximized()
-      console.debug("maximized -> normal", @element)
-      p = @options.position
+      @iframe.
+        hide('fade', @options.speed / 2)
       @element.
-        children('div.iframe').hide().end().
         animate {
           marginLeft: '-=' + @options.indent
           top: 0
@@ -118,10 +122,14 @@ Project = {
     @getState() == 'normal'
 
   _addIframe: ->
-    if !@element.find('iframe').length
-      $('<iframe>You need iframe support</iframe>')
-        .attr('src', @element.find('h2.name a').attr('href'))
-        .appendTo( @element.children('div.iframe:first') )
+    if !@iframe.find('iframe').length
+      $('<iframe>You need iframe support</iframe>').
+        attr('src', @element.find('h2.name a').attr('href')).
+        appendTo( @iframe )
+    @_updateIframeHeight()
+
+  _updateIframeHeight: ->
+    @iframe.height( $(window).height() - 3 * @position.height )
 
   _savePosition: ->
     @options.position = @element.position()
