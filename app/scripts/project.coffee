@@ -20,7 +20,8 @@ Project = {
         @_others (other) ->
           other.minimize()
       when "maximized"
-        @_all (project) ->
+        @normalize()
+        @_others (project) ->
           project.normalize()
       when "minimized"
         @maximize()
@@ -37,22 +38,38 @@ Project = {
       action(project)
 
   getState: ->
-    this.options.state
+    @options.state
 
   setState: (newState) ->
-    this.options.state = newState
+    @options.state = newState
 
   maximize: ->
-    console.debug("maximizing", @element)
+    if @is_normal()
+      console.debug("normal -> maximized", @element)
+    else if @is_minimized()
+      console.debug("minimized -> maximized", @element)
     @setState('maximized')
 
   minimize: ->
-    console.debug("minimizing", @element)
+    if @is_normal()
+      console.debug("normal -> minimized", @element)
+    else if @is_maximized()
+      console.debug("maximized -> minimized", @element)
     @setState('minimized')
 
   normalize: ->
-    console.debug("normalizing", @element)
+    if @is_minimized()
+      console.debug("minimized -> normal", @element)
+    else if @is_maximized()
+      console.debug("maximized -> normal", @element)
     @setState('normal')
+
+  is_maximized: ->
+    @getState() == 'maximized'
+  is_minimized: ->
+    @getState() == 'minimized'
+  is_normal: ->
+    @getState() == 'normal'
 
 
 }
