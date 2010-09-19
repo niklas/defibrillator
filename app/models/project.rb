@@ -40,6 +40,14 @@ class Project < ActiveRecord::Base
     find_or_create_by_name_and_revision name, revision
   end
 
+  def remaining_buildtime
+    42
+  end
+
+  def last_buildtime
+    60
+  end
+
   attr_writer :author
 
 
