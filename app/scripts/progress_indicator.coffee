@@ -61,6 +61,7 @@ ProgressIndicator = {
         onExpiry: =>
           @left = 0
           @_drawArc()
+          @element.effect('pulsate',{},'slow')
       })
 
 
