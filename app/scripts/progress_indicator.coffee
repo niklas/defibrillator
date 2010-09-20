@@ -5,7 +5,20 @@ ProgressIndicator = {
       stroke: "#ddd"
       strokeWidth: 5
       fill: "none"
+      opacity: 0.8
       id: 'circle'
+    background_circle:
+      stroke: "#282828"
+      strokeWidth: 5
+      fill: "none"
+      opacity: 0.2
+      id: 'background'
+    pivot:
+      stroke: "#eeeeee"
+      strokeWidth: 2
+      fill: "#fff"
+      opacity: 0.9
+      id: 'pivot'
   }
 
   _init: ->
@@ -31,7 +44,8 @@ ProgressIndicator = {
       .svg({
         onLoad: (svg) =>
           setTimeout =>
-            @_drawArc()
+            @_initGraph()
+            @_updateGraph()
           , 300
         })
       .svg('get')
@@ -42,7 +56,7 @@ ProgressIndicator = {
         top:   -( @width - @image.height() ) / 2
         right: -( @width - @image.width() ) / 2
       })
-      .fadeTo(9000, 0.66)
+      .fadeTo(9000, 1.0)
 
 
     tickInterval = if @total > 720 
@@ -61,11 +75,11 @@ ProgressIndicator = {
           @left = seconds +
             minutes * 60 +
             hours * 60 * 60
-          @_drawArc()
+          @_updateGraph()
         expiryText: "just a bit.."
         onExpiry: =>
           @left = 0
-          @_drawArc()
+          @_updateGraph()
           @element.effect 'pulsate',{},'slow', =>
             @countdown
               .countdown('destroy')
@@ -79,10 +93,10 @@ ProgressIndicator = {
       })
 
 
-  _drawArc: () ->
+  _updateGraph: () ->
     fraction = (@total-@left)/@total
-    if oldCircle = @svg.getElementById('circle')
-      $(oldCircle).remove()
+    $(@svg.getElementById('circle')).remove()
+    $(@svg.getElementById('pivot')).remove()
 
     if fraction < 0
       return
@@ -98,6 +112,10 @@ ProgressIndicator = {
         .move(@radius, @thickness)
         .arc(@radius - @thickness, @radius - @thickness, 0, (fraction > 0.5), true, tx, ty)
       @svg.path path, @options.circle
+      @svg.circle tx, ty, @thickness/2, @options.pivot
+
+  _initGraph: () ->
+    @svg.circle @radius, @radius, @radius - @thickness, @options.background_circle
 
 }
 
