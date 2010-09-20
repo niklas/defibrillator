@@ -60,9 +60,9 @@ ProgressIndicator = {
 
 
     tickInterval = if @total > 720 
-                     Math.floor(@total / 720)
+                     Math.floor(@total / 360)
                    else
-                     1
+                     2
     @countdown = @element.find('.countdown:first')
       .countdown({
         until: @left
