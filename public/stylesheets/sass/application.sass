@@ -1,14 +1,17 @@
 $border_color = #333
 $border_radius = 5px
-$margin = 5px
-$icon_size = 48px
+$border = 1px
+$margin = 4px
+$icon_size = 42px
+$circle_size = 1.72 * $icon_size
+$font_size = $icon_size - 2 * ($border + $border_radius + $margin)
 
 $finsize = 10px
 
 @mixin rounded-border($radius: $border_radius)
   border:
     style: solid
-    width: 1px 
+    width: $border
     color: $border_color
   border-radius: $radius
   -moz-border-radius: $radius
@@ -35,6 +38,7 @@ body
     margin: $margin
     ul#projects
       font-family: sans-serif
+      font-size: $font_size
       list-style: none
       margin: 0
       padding: 0
@@ -42,8 +46,8 @@ body
         background-color: #555
         @include rounded-border(15px)
         @include colored-status
-        margin: 0.5em $margin $margin + $finsize $margin
-        padding: 0.7em
+        margin: $margin $margin $margin + $finsize $margin
+        padding: $margin 2 * $margin
         position: relative
         top: 0
         left: 0
@@ -60,15 +64,17 @@ body
           left: auto
 
         h2.name
-          font-size: 30px
+          line-height: $icon_size
           float: left
-          margin: 5px
+          margin: $margin
           a
             text-decoration: none
         div.status
-          margin: 0 0 -5px
+          margin: $margin
           float: right
           width: $icon_size
+          height: $icon_size
+          position: relative
           img
             width: $icon_size
             height: $icon_size
@@ -78,11 +84,13 @@ body
             &.spinner
               background: white
           div.progress
-            position: relative
+            position: absolute
+            right: 0
             div.progress-graph
               position: absolute
-              width: 83px
-              height: 83px
+              width: $circle_size
+              height: $circle_size
+              right: 0
               z-index: 1
             img.spinner
               position: absolute
@@ -90,7 +98,12 @@ body
               right: 0
               z-index: 2
             div.countdown
-              margin-right: 70px
+              font-size: 80%
+              position: absolute
+              top: $icon_size - (0.8 * $font_size)
+              right: $circle_size
+              width: 200px
+              text-align: right
 
         &:after
           content: ' '
