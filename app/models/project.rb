@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
 
-  has_many :updates, :class_name => 'ProjectUpdate', :dependent => :destroy
+  has_many :updates, :class_name => 'ProjectUpdate', :dependent => :destroy, :inverse_of => :project, :order => 'created_at ASC'
   validates_presence_of :name
   validates_presence_of :revision
 
@@ -41,11 +41,31 @@ class Project < ActiveRecord::Base
   end
 
   def remaining_buildtime
-    42
+    last_buildtime - building_since
+  end
+
+  def building_since
+    if last_building.present?
+      (Time.zone.now - last_building.created_at).to_i
+    else
+      42
+    end
+  end
+
+  def last_building
+    updates.building.last
+  end
+
+  def last_result
+    updates.results.last
   end
 
   def last_buildtime
-    60
+    if last_result.present? && last_result.previous_building.present?
+      (last_result.created_at - last_result.previous_building.created_at).to_i
+    else
+      5.minutes.to_i
+    end
   end
 
   attr_writer :author

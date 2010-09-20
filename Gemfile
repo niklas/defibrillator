@@ -50,6 +50,8 @@ group :test do
   gem 'cucumber-rails'
   gem 'capybara'
   gem 'pickle'
+
+  gem 'timecop'
 end
 
 group :production do
