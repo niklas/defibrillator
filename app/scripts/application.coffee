@@ -7,9 +7,17 @@ jQuery(document).ready ->
     # Fade update fin tails
     $('#projects .project').each ->
       $project = $(this)
-      $updates = $project.find('.updates .update')
+      $container = $project.find('.updates')
+      $updates = $container.find('.update')
+      width = $container.width()
       $updates.each (i) ->
-        $(this).fadeTo(100, 1.2 - (i / $updates.length  ) )
+        top = $(this).position().top
+        left = $(this).position().left
+        opa = if top < 2
+                1.2 - left / width
+              else
+                0.2
+        $(this).fadeTo 100, opa
 
     $('#projects .project .progress:not(:has(.progress-graph.hasSVG))').progress()
 

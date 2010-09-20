@@ -18,7 +18,7 @@ class ProjectUpdate < ActiveRecord::Base
     where('created_at < ?', time - 1.second)
   end
 
-  def self.recent(n=20)
+  def self.recent(n=66)
     order('created_at DESC').limit(n)
   end
 

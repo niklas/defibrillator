@@ -120,8 +120,10 @@ body
         ul.updates
           list-style: none
           position: absolute
-          bottom: -12px
+          bottom: -($finsize + 2px)
           left: -24px
+          height: $finsize + 2px
+          overflow: hidden
           li
             @include rounded-border(0 5px 0 10px)
             @include colored-status
