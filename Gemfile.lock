@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/niklas/bistro_car.git
+  revision: 69df82792cff264a330c605223627ebe35384368
+  specs:
+    bistro_car (0.1.1)
+      jsmin (>= 1.0.1)
+
+GIT
   remote: git://github.com/thoughtbot/factory_girl.git
   revision: 418cbfb
   specs:
@@ -37,8 +44,6 @@ GEM
     andand (1.3.1)
     arel (0.4.0)
       activesupport (>= 3.0.0.beta)
-    bistro_car (0.2.2)
-      jsmin (>= 1.0.1)
     builder (2.1.2)
     capybara (0.3.9)
       culerity (>= 0.2.4)
@@ -131,7 +136,7 @@ PLATFORMS
 
 DEPENDENCIES
   andand
-  bistro_car
+  bistro_car!
   capybara
   cucumber-rails
   factory_girl!

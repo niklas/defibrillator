@@ -9,7 +9,7 @@ gem "andand"
 gem "haml"
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'bistro_car'
+gem 'bistro_car', :git => 'git://github.com/niklas/bistro_car.git'
 
 group :development do
   gem "rails3-generators", :group => 'development'
