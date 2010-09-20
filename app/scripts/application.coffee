@@ -1,8 +1,6 @@
 jQuery(document).ready ->
   $('#projects .project')
     .project()
-    .find('.progress')
-      .progress()
 
   applyBehaviours = ->
 
@@ -12,6 +10,8 @@ jQuery(document).ready ->
       $updates = $project.find('.updates .update')
       $updates.each (i) ->
         $(this).fadeTo(100, 1.2 - (i / $updates.length  ) )
+
+    $('#projects .project .progress:not(:has(.progress-graph.hasSVG))').progress()
 
 
   $('#projects').data('updatedAt', $('#projects').attr('updatedAt'))

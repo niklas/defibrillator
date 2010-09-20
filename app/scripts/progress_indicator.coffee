@@ -44,24 +44,38 @@ ProgressIndicator = {
       })
       .fadeTo(9000, 0.66)
 
-    $('<div> </div>')
-      .addClass('countdown')
-      .prependTo(@element)
+
+    tickInterval = if @total > 720 
+                     Math.floor(@total / 720)
+                   else
+                     1
+    @countdown = @element.find('.countdown:first')
       .countdown({
         until: @left
         compact: true
-        description: ''
-        tickInterval: 1
+        description: ' remaining'
+        alwaysExpire: true
+        tickInterval: tickInterval
         onTick: (periods) =>
           [hours, minutes, seconds] = periods[4..7]
           @left = seconds +
             minutes * 60 +
             hours * 60 * 60
           @_drawArc()
+        expiryText: "just a bit.."
         onExpiry: =>
           @left = 0
           @_drawArc()
-          @element.effect('pulsate',{},'slow')
+          @element.effect 'pulsate',{},'slow', =>
+            @countdown
+              .countdown('destroy')
+              .countdown({
+                compact: true
+                since: -@total
+                until: null
+                description: " building"
+              })
+
       })
 
 
