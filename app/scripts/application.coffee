@@ -48,3 +48,5 @@ jQuery(document).ready ->
     else
       setTimeout reloadPage, 1000
   setTimeout reloadPage, 1000 * $('html').attr('data-reload-interval')
+
+  applyBehaviours()
