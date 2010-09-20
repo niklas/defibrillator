@@ -16,7 +16,7 @@ Project = {
     @options.indent or= @element.find('.status:first').width() + 3 + @options.margin
     @position = @_savePosition()
 
-    @element.bind 'click', =>
+    @element.css({cursor: 'pointer'}).bind 'click', =>
       @_switchToNextState()
       false
 
