@@ -126,6 +126,8 @@ Project = {
       $('<iframe>You need iframe support</iframe>').
         attr('src', @element.find('h2.name a').attr('href')).
         appendTo( @iframe )
+    else
+      @iframe.find('iframe')[0].contentDocument.location.reload(true)
     @_updateIframeHeight()
 
   _updateIframeHeight: ->
