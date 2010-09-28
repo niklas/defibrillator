@@ -1,8 +1,11 @@
 class ProjectUpdate < ActiveRecord::Base
 
+  extend ActiveSupport::Memoizable
+
   belongs_to :project
 
   composed_of :author_person, :mapping => [ %w(author line) ], :class_name => 'Author'
+  memoize :author_person
 
   def has_author?
     author.present? && author_person.present?
