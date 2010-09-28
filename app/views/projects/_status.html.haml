@@ -6,6 +6,8 @@
       Build Time:
       = (Time.zone.now.midnight + project.last_buildtime.seconds).strftime('%H:%M:%S')
   - if update.andand.has_author?
+    %div.health.author{'data-health' => update.author_person.health}
+      %span.label= "#{update.author_person.health}%"
     = gravatar_tag update.author_person
   - else
     = anonymous_tag

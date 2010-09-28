@@ -2,6 +2,8 @@ require 'digest/md5'
 
 class Author < Struct.new(:line)
 
+  extend ActiveSupport::Memoizable
+
   EmailExp = %r~\A([^<]+)<([^>]+)>\z~
 
   def matches?
@@ -30,6 +32,16 @@ class Author < Struct.new(:line)
   def rating
     self.class.gravatar_rating
   end
+
+  def health
+    (100.0 * ProjectUpdate.by_author(line).ok.count / 
+             ProjectUpdate.by_author(line).results.count
+    ).to_i
+  rescue FloatDomainError
+    0
+  end
+
+  memoize :health
 
   cattr_accessor :gravatar_rating
   self.gravatar_rating = 'x'

@@ -30,6 +30,7 @@ Project = {
         css({width: '100%'}).
         appendTo(this).
         animate({width: health + '%'}, 3000)
+      jQuery(this).animate({opacity: 0.7}, 1000)
 
   _switchToNextState: ->
     switch @getState()
