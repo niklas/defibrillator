@@ -1,5 +1,7 @@
 %li.project{:id => dom_id(project), :name => project.name, :class => project.status}
   %h2.name= link_to project.human_name, cijoe_path(project)
+  %div.health{'data-health' => project.health}
+    %span.label= "#{project.health}%"
   %div.status= render 'projects/status', :project => project
   %div.iframe
   %ul.updates

@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
 
+  extend ActiveSupport::Memoizable
+
   has_many :updates, :class_name => 'ProjectUpdate', :dependent => :destroy, :inverse_of => :project, :order => 'created_at ASC'
   validates_presence_of :name
   validates_presence_of :revision
@@ -69,6 +71,14 @@ class Project < ActiveRecord::Base
   end
 
   attr_writer :author
+
+  def health
+    (100.0 * updates.ok.count / updates.results.count).to_i
+  rescue FloatDomainError
+    0
+  end
+
+  memoize :health
 
 
   private

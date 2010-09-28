@@ -17,16 +17,20 @@ $finsize = 10px
   -moz-border-radius: $radius
   -webkit-border-radius: $radius
 
+$color_new      = #777
+$color_ok       = #247A24
+$color_failed   = #6E1C1C
+$color_building = #9F9956
 
 @mixin colored-status
   &.new
-    background-color: #777
+    background-color: $color_new
   &.ok
-    background-color: #247A24
+    background-color: $color_ok
   &.failed
-    background-color: #6E1C1C
+    background-color: $color_failed
   &.building
-    background-color: #9F9956
+    background-color: $color_building
 
 body
   background-color: #aaa
@@ -46,7 +50,7 @@ body
         background-color: #555
         @include rounded-border(15px)
         @include colored-status
-        margin: $margin $margin $margin + $finsize $margin
+        margin: $margin $margin $margin + (1.7 * $finsize) $margin
         padding: $margin 2 * $margin
         position: relative
         top: 0
@@ -69,6 +73,33 @@ body
           margin: $margin
           a
             text-decoration: none
+        div.health
+          position: absolute
+          top: - $margin
+          left: $margin * 4
+          width: 50px
+          font-size: 2.5 * $margin
+          line-height: 2.5 * $margin
+          height: 3 * $margin
+          @include rounded-border(3px)
+          background-color: $color_failed
+          padding: 0
+          span.label
+            position: absolute
+            top: 0
+            left: 3px
+            z-index: 10
+          div.ok
+            margin: 0
+            padding: 0
+            position: absolute
+            top: 0
+            left: 0
+            height: (3 * $margin)
+            background-color: $color_ok
+            z-index: 1
+
+          overflow: hidden
         div.status
           margin: $margin
           float: right

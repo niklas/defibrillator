@@ -23,6 +23,14 @@ Project = {
     jQuery(window).bind 'resize', =>
       @_updateIframeHeight()
 
+    @element.find('.health:not(:has(.ok))').each ->
+      health = jQuery(this).attr('data-health')
+      jQuery('<div> </div>').
+        addClass('ok').
+        css({width: '100%'}).
+        appendTo(this).
+        animate({width: health + '%'}, 3000)
+
   _switchToNextState: ->
     switch @getState()
       when "normal"

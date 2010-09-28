@@ -22,6 +22,10 @@ class ProjectUpdate < ActiveRecord::Base
     order('created_at DESC').limit(n)
   end
 
+  def self.ok
+    where(:status => "ok")
+  end
+
   def self.results
     where(:status => %w(ok failed))
   end
